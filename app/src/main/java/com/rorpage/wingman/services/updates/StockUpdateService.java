@@ -1,57 +1,57 @@
 package com.rorpage.wingman.services.updates;
 
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.rorpage.wingman.models.stocks.Stock;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import timber.log.Timber;
 
 import static com.rorpage.wingman.modules.updatables.StockModule.PREFERENCE_KEY_MODULEDATA_STOCKMODULE;
 
 public class StockUpdateService extends BaseUpdateService {
-    private Set<String> stocks;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        stocks = new HashSet<>();
-
         String[] symbols = new String[] {
-//          "DBX", "DIS", "GOOGL", "MSFT", "NFLX"
-            "DBX"
+                "DBX", "DIS", "GOOGL", "MSFT", "NFLX"
         };
 
+        ArrayList<Stock> stocks = new ArrayList<>();
+
         for (String symbol : symbols) {
-            final String uri = String.format(Locale.US,
+            final String uri = String.format(
                     "https://api.stockpile.com/app/api/giftitems/pub/withquote/giftitemcode/%s::::%s::",
                     symbol, symbol);
-            Ion.with(StockUpdateService.this)
-                    .load(uri)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            Timber.d("onCompleted()");
-                            if (e != null) {
-                                Timber.e(e);
-                            } else {
-                                Stock stock = mGson.fromJson(result, Stock.class);
-                                stocks.add(stock.toString());
 
-                                mSharedPreferences.edit()
-                                        .putStringSet(PREFERENCE_KEY_MODULEDATA_STOCKMODULE, stocks)
-                                        .apply();
+            JsonObject json = null;
+            try {
+                json = Ion.with(this)
+                        .load(uri)
+                        .asJsonObject()
+                        .get();
 
-                                stopSelf();
-                            }
-                        }
-                    });
+                Stock stock = mGson.fromJson(json, Stock.class);
+                stocks.add(stock);
+            } catch (InterruptedException | ExecutionException e) {
+                Timber.e(e);
+            }
         }
+
+        Set<String> stocksAsStrings = new HashSet<>();
+        for (Stock stock : stocks) {
+            stocksAsStrings.add(stock.toString());
+        }
+
+        mSharedPreferences.edit()
+                .putStringSet(PREFERENCE_KEY_MODULEDATA_STOCKMODULE, stocksAsStrings)
+                .apply();
+
+        stopSelf();
     }
 }
