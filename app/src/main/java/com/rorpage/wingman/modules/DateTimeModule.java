@@ -12,6 +12,7 @@ import com.rorpage.wingman.models.messages.MessageType;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateTimeModule extends BaseWingmanModule {
     public DateTimeModule(Context context, SharedPreferences sharedPreferences) {
@@ -21,7 +22,7 @@ public class DateTimeModule extends BaseWingmanModule {
     @Override
     @SuppressLint("SimpleDateFormat")
     protected ArrayList<WingmanMessage> getMessages() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa\nMM/dd/yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm aa\nMM/dd/yyyy", Locale.US);
 
         ArrayList<WingmanMessage> wingmanMessages = new ArrayList<>();
         wingmanMessages.add(new WingmanMessage(getMessageType(), simpleDateFormat.format(new Date()),
