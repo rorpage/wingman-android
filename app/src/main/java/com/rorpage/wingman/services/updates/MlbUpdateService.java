@@ -1,6 +1,5 @@
 package com.rorpage.wingman.services.updates;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -40,8 +39,8 @@ public class MlbUpdateService extends BaseUpdateService {
                         if (e != null) {
                             Timber.e(e);
                         } else {
-                            MlbMiniScoreboard mlbMiniScoreboard = (new Gson())
-                                    .fromJson(result, MlbMiniScoreboard.class);
+                            MlbMiniScoreboard mlbMiniScoreboard =
+                                    mGson.fromJson(result, MlbMiniScoreboard.class);
 
                             Game gameToWatch = null;
                             for (Game game : mlbMiniScoreboard.Data.Games.Game) {

@@ -11,6 +11,8 @@ public class Game {
     public String GameType;
     @SerializedName("gameDate")
     public String GameDate;
+    @SerializedName("status")
+    public ScheduleGameStatus ScheduleGameStatus;
     @SerializedName("teams")
     public ScheduleTeam ScheduleTeam;
 }

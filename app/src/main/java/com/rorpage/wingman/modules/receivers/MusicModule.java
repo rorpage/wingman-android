@@ -145,8 +145,10 @@ public class MusicModule extends BaseBroadcastReceiverModule {
             music.track = stringExtra2;
             music.musicSource = Music.MusicSource.BROADCAST_RECEIVER;
 
-            final String artist = music.artist.substring(0, Math.min(music.artist.length(), 14));
-            final String track = music.track.substring(0, Math.min(music.track.length(), 16));
+//            final String artist = music.artist.substring(0, Math.min(music.artist.length(), 14));
+//            final String track = music.track.substring(0, Math.min(music.track.length(), 16));
+            final String artist = music.artist.substring(0, Math.min(music.artist.length(), 18));
+            final String track = music.track.substring(0, Math.min(music.track.length(), 20));
             final String musicData = String.format("%s\n%s", artist, track);
 
             mSharedPreferences.edit()

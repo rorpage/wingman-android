@@ -69,26 +69,11 @@ public class Game {
     @SerializedName("home_win")
     public String HomeWin;
 
-    public boolean isGameInProgress() {
-        return Status.equals("In Progress");
-    }
-
-    public boolean isGameOver() {
-        return Status.equals("Final");
-    }
-
     @Override
     public String toString() {
-        if (isGameOver()) {
-            return String.format(Locale.US, "Final\n%s %s | %s %s",
-                    AwayNameAbbreviation,
-                    AwayTeamRuns,
-                    HomeNameAbbreviation,
-                    HomeTeamRuns);
-        }
-
-        if (isGameInProgress()) {
-            return String.format(Locale.US, "In progress\n%s %s | %s %s",
+        if (Status.toLowerCase().equals("in progress") || Status.toLowerCase().equals("final")) {
+            return String.format(Locale.US, "%s\n%s %s | %s %s",
+                    Status,
                     AwayNameAbbreviation,
                     AwayTeamRuns,
                     HomeNameAbbreviation,

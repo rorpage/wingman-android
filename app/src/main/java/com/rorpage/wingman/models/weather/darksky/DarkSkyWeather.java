@@ -14,7 +14,10 @@ public class DarkSkyWeather {
 
     @Override
     public String toString() {
-        return String.format(Locale.US,
-                "%s\n%.0fF", this.Currently.Summary, this.Currently.Temperature);
+        return String.format(Locale.US, "%s\n%.0fF | %.2f%% | %.2f%%",
+                this.Currently.Summary,
+                this.Currently.Temperature,
+                this.Currently.PrecipProbability,
+                this.Currently.Humidity);
     }
 }
