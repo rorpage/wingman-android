@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottomnavigation_action_modules"
+        android:enabled="true"
+        android:icon="@drawable/baseline_view_module_24"
+        android:title="@string/bottomnavigation_modules"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bottomnavigation_action_notifications"
+        android:enabled="true"
+        android:icon="@drawable/baseline_notifications_active_24"
+        android:title="@string/bottomnavigation_notifications"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bottomnavigation_action_settings"
+        android:enabled="true"
+        android:icon="@drawable/baseline_settings_black_24"
+        android:title="@string/bottomnavigation_settings"
+        app:showAsAction="ifRoom" />
+</menu>
