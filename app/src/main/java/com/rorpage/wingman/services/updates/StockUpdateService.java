@@ -3,6 +3,7 @@ package com.rorpage.wingman.services.updates;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.rorpage.wingman.models.stocks.Stock;
+import com.rorpage.wingman.util.formatters.StockFormatter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class StockUpdateService extends BaseUpdateService {
                 "DBX", "DIS", "GOOGL", "MSFT", "NFLX"
         };
 
-        ArrayList<Stock> stocks = new ArrayList<>();
+        Set<String> stocks = new HashSet<>();
 
         for (String symbol : symbols) {
             final String uri = String.format(
@@ -37,19 +38,14 @@ public class StockUpdateService extends BaseUpdateService {
                         .get();
 
                 Stock stock = mGson.fromJson(json, Stock.class);
-                stocks.add(stock);
+                stocks.add(StockFormatter.getFormattedStock(stock));
             } catch (InterruptedException | ExecutionException e) {
                 Timber.e(e);
             }
         }
 
-        Set<String> stocksAsStrings = new HashSet<>();
-        for (Stock stock : stocks) {
-            stocksAsStrings.add(stock.toString());
-        }
-
         mSharedPreferences.edit()
-                .putStringSet(PREFERENCE_KEY_MODULEDATA_STOCKMODULE, stocksAsStrings)
+                .putStringSet(PREFERENCE_KEY_MODULEDATA_STOCKMODULE, stocks)
                 .apply();
 
         stopSelf();

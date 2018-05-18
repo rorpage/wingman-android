@@ -1,4 +1,4 @@
-package com.rorpage.wingman.util;
+package com.rorpage.wingman.util.formatters;
 
 import android.test.suitebuilder.annotation.SmallTest;
 

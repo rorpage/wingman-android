@@ -11,18 +11,4 @@ public class Stock {
     public Stock () {
         Result = new Result();
     }
-
-    @Override
-    public String toString() {
-        String priceChange = Result.Quote.PriceChange;
-        if (priceChange.contains("-")) {
-            priceChange = priceChange.replace("-", "(").concat(")");
-        }
-
-        return String.format(Locale.US, "%s $%.2f\n$%s (%s%%)",
-                Result.Quote.Symbol,
-                Result.Quote.Price,
-                priceChange,
-                Result.Quote.PercentChange);
-    }
 }

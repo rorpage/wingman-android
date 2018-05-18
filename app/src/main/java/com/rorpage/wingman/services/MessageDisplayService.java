@@ -15,7 +15,7 @@ import com.rorpage.wingman.modules.BaseBroadcastReceiverModule;
 import com.rorpage.wingman.modules.BaseWingmanModule;
 import com.rorpage.wingman.modules.WingmanModuleFactory;
 import com.rorpage.wingman.util.Constants;
-import com.rorpage.wingman.util.WingmanMessageFormatter;
+import com.rorpage.wingman.util.formatters.WingmanMessageFormatter;
 
 import java.util.ArrayList;
 

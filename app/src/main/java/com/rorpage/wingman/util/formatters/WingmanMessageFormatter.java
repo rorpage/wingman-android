@@ -1,4 +1,4 @@
-package com.rorpage.wingman.util;
+package com.rorpage.wingman.util.formatters;
 
 import com.rorpage.wingman.models.messages.WingmanMessage;
 import com.rorpage.wingman.models.messages.MessageType;
