@@ -33,7 +33,7 @@ public class WeatherUpdateService extends BaseUpdateService {
                         @Override
                         public void onSuccess(Location location) {
                             final String uri = String.format(Locale.US,
-                                    "https://api.darksky.net/forecast/%s/%.4f,%.4f",
+                                    "https://api.darksky.net/forecast/%s/%.4f,%.4f?exclude=minutely,hourly,daily,alerts,flags",
                                     getString(R.string.DarkSkyApiKey),
                                     location.getLatitude(),
                                     location.getLongitude());

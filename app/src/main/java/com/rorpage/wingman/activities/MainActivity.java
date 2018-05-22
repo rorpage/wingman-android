@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -19,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private IntentFilter mBluetoothStatusIntentFilter;
 
     private Intent mWingmanServiceIntent;
+
+    private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
 
     @BindView(R.id.bottom_navigation) BottomNavigationView mBottomNavigationView;
 
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         checkPermissions();
+        //buildNotificationServiceAlertDialog();
     }
 
     @Override
@@ -167,6 +172,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleOnDisconnected() {
         makeSnackbar("Disconnected!");
+    }
+
+    private AlertDialog buildNotificationServiceAlertDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.notification_listener_service);
+        alertDialogBuilder.setMessage(R.string.notification_listener_service_explanation);
+
+        alertDialogBuilder.setPositiveButton(R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton(R.string.no,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+        return alertDialogBuilder.create();
     }
 
     public class BluetoothDeviceStatusReceiver extends BroadcastReceiver {

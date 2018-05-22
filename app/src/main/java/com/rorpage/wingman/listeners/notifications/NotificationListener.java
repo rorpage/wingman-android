@@ -9,10 +9,15 @@ import com.rorpage.wingman.models.messages.MessagePriority;
 import com.rorpage.wingman.models.messages.MessageType;
 import com.rorpage.wingman.services.BroadcastIntentService;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import timber.log.Timber;
 
 public class NotificationListener extends NotificationListenerService {
     private BroadcastIntentService mBroadcastIntentService;
+
+    private ArrayList<String> mIgnoredPackages;
 
     public NotificationListener() {
         mBroadcastIntentService = new BroadcastIntentService(this);
@@ -20,6 +25,22 @@ public class NotificationListener extends NotificationListenerService {
 
     public void onCreate() {
         Timber.d("onCreate()");
+
+        setupIgnoredPackages();
+    }
+
+    private void setupIgnoredPackages() {
+        mIgnoredPackages = new ArrayList<>();
+        mIgnoredPackages.add("com.p1.chompsms");
+        mIgnoredPackages.add("com.klinker.android.evolve_sms");
+        mIgnoredPackages.add("com.jb.gosms");
+        mIgnoredPackages.add("com.google.android.apps.messaging");
+        mIgnoredPackages.add("com.hellotext.hello");
+        mIgnoredPackages.add("com.textra");
+        mIgnoredPackages.add("org.thoughtcrime.securesms");
+        mIgnoredPackages.add("com.sonyericsson.conversations");
+        mIgnoredPackages.add("com.disa");
+        mIgnoredPackages.add("com.rorpage.wingman");
     }
 
     public void onNotificationPosted(final StatusBarNotification statusBarNotification) {
@@ -30,13 +51,20 @@ public class NotificationListener extends NotificationListenerService {
 
             if (shouldSendBroadcast(notificationPackageName)) {
                 Notification notification = statusBarNotification.getNotification();
-                CharSequence notificationText = notification.extras
+
+                final CharSequence notificationText = notification.extras
                         .getCharSequence(Notification.EXTRA_TEXT);
-                if (notificationText != null) {
-                    Timber.d("onNotificationPosted: " + notificationText.toString());
+                final CharSequence notificationTitle =
+                        notification.extras.getCharSequence(Notification.EXTRA_TITLE);
+
+                if (notificationTitle != null && notificationText != null) {
+                    Timber.d("onNotificationPosted: %s", notificationText.toString());
+
+                    final String message = String.format(Locale.US,
+                            "%s\n%s", notificationTitle.toString(), notificationText.toString());
 
                     WingmanMessage wingmanMessage = new WingmanMessage(MessageType.MESSAGE,
-                            "New notification",
+                            message,
                             MessagePriority.HIGH);
 
                     mBroadcastIntentService.broadcastNewNotification(wingmanMessage);
@@ -54,8 +82,10 @@ public class NotificationListener extends NotificationListenerService {
     }
 
     private boolean shouldSendBroadcast(String notificationPackageName) {
-        if (notificationPackageName.equals("com.google.android.apps.messaging")) {
-            return false;
+        for (String ignoredPackage : mIgnoredPackages) {
+            if (notificationPackageName.equals(ignoredPackage)) {
+                return false;
+            }
         }
 
         return true;

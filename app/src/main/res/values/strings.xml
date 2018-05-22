@@ -7,5 +7,9 @@
     <string name="bottomnavigation_settings">Settings</string>
     <string name="connect_bluetooth">Connect</string>
     <string name="disconnect_bluetooth">Disconnect</string>
+    <string name="no">No</string>
     <string name="notification_channel_default">Primary Channel</string>
+    <string name="notification_listener_service">Notification Listener Service</string>
+    <string name="notification_listener_service_explanation">Wingman would like access to your notifications. Enable it now?</string>
+    <string name="yes">Yes</string>
 </resources>
