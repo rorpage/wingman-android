@@ -26,7 +26,9 @@ public class WingmanService extends BaseWingmanService {
         super.onCreate();
 
         mBluetooth = new Bluetooth(this);
-        WingmanApplication mWingmanApplication = (WingmanApplication) super.getApplication();
+
+        final WingmanApplication mWingmanApplication = (WingmanApplication) super.getApplication();
+        mWingmanApplication.cleanupBluetooth();
         mWingmanApplication.setBluetooth(mBluetooth);
 
         mNotificationManager = new NotificationManager(this);

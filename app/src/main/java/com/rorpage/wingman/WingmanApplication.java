@@ -30,4 +30,13 @@ public class WingmanApplication extends Application {
     public void setBluetooth(Bluetooth bluetooth) {
         this.mBluetooth = bluetooth;
     }
+
+    public void cleanupBluetooth() {
+        if (mBluetooth != null && mBluetooth.isConnected()) {
+            mBluetooth.removeBluetoothCallback();
+            mBluetooth.removeCommunicationCallback();
+            mBluetooth.removeDiscoveryCallback();
+            mBluetooth.disconnect();
+        }
+    }
 }
