@@ -11,5 +11,7 @@
     <string name="notification_channel_default">Primary Channel</string>
     <string name="notification_listener_service">Notification Listener Service</string>
     <string name="notification_listener_service_explanation">Wingman would like access to your notifications. Enable it now?</string>
+    <string name="wingman_connected">Your Wingman is connected.</string>
+    <string name="wingman_disconnected">Your Wingman is disconnected.</string>
     <string name="yes">Yes</string>
 </resources>

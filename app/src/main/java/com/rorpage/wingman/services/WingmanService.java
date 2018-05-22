@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.rorpage.wingman.R;
 import com.rorpage.wingman.WingmanApplication;
 import com.rorpage.wingman.managers.NotificationManager;
 
@@ -33,7 +34,7 @@ public class WingmanService extends BaseWingmanService {
         mBroadcastIntentService = new BroadcastIntentService(this);
         mMessageDisplayServiceIntent = new Intent(this, MessageDisplayService.class);
 
-        mNotificationManager.sendNotification("Your Wingman is disconnected.");
+        mNotificationManager.sendNotification(getString(R.string.wingman_disconnected));
     }
 
     @Override
@@ -48,7 +49,7 @@ public class WingmanService extends BaseWingmanService {
                 mBroadcastIntentService.broadcastBluetoothConnected();
                 Timber.d("Broadcast sent");
 
-                mNotificationManager.sendNotification("Your Wingman is connected.");
+                mNotificationManager.sendNotification(getString(R.string.wingman_connected));
                 mCheckBluetoothDeviceStatusHandler.removeCallbacks(mCheckBluetoothDeviceStatusRunnable);
 
                 getApplicationContext().startService(mMessageDisplayServiceIntent);
@@ -61,7 +62,7 @@ public class WingmanService extends BaseWingmanService {
                 mBroadcastIntentService.broadcastBluetoothDisconnected();
                 Timber.d("Broadcast sent");
 
-                mNotificationManager.sendNotification("Your Wingman is disconnected.");
+                mNotificationManager.sendNotification(getString(R.string.wingman_disconnected));
                 updateCheckBluetoothDeviceStatusHandler();
                 getApplicationContext().stopService(mMessageDisplayServiceIntent);
             }
@@ -85,13 +86,6 @@ public class WingmanService extends BaseWingmanService {
 
         mBluetooth.onStart();
         updateCheckBluetoothDeviceStatusHandler();
-
-//        IntentFilter mMessageIntentFilter = new IntentFilter();
-//        mMessageIntentFilter.addAction(Constants.NEW_NOTIFICATION_INTENT);
-//        mMessageIntentFilter.addAction(Constants.NEW_SMS_INTENT);
-//        mNewMessageReceiver = new NewMessageReceiver();
-//
-//        registerReceiver(mNewMessageReceiver, mMessageIntentFilter);
 
         return START_STICKY;
     }

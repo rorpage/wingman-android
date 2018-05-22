@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.rorpage.wingman.models.messages.WingmanMessage;
 import com.rorpage.wingman.models.messages.MessagePriority;
 import com.rorpage.wingman.models.messages.MessageType;
+import com.rorpage.wingman.models.messages.WingmanMessage;
 import com.rorpage.wingman.modules.BaseUpdatableModule;
-import com.rorpage.wingman.services.updates.MlbUpdateService;
 import com.rorpage.wingman.services.updates.NhlUpdateService;
 import com.rorpage.wingman.util.Constants;
 

@@ -5,7 +5,6 @@ import com.koushikdutta.ion.Ion;
 import com.rorpage.wingman.models.stocks.Stock;
 import com.rorpage.wingman.util.formatters.StockFormatter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;

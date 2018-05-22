@@ -59,28 +59,6 @@ public class BroadcastIntentService {
         return new WingmanMessage(messageType, message, messagePriority);
     }
 
-//    private void broadcastIntent(final String action, final WingmanMessage message) {
-//        final String wingmanMessage = mGson.toJson(message);
-//        Timber.d("wingmanMessage: %s", wingmanMessage);
-//
-//        long currentTime = System.currentTimeMillis();
-//        Timber.d("%d", currentTime - mTimeOfLastBroadcast);
-//        if (currentTime - mTimeOfLastBroadcast <= 7000) {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    broadcastIntent(action, message);
-//                }
-//            }, 5000);
-//        } else {
-//            Intent intent = new Intent();
-//            intent.setAction(action);
-//            intent.putExtra(Constants.INTENT_EXTRA_WINGMANMESSAGE, message);
-//            mContext.sendBroadcast(intent);
-//            mTimeOfLastBroadcast = currentTime;
-//        }
-//    }
-
     private void broadcastBluetoothStatus(String action) {
         Intent intent = new Intent();
         intent.setAction(action);
