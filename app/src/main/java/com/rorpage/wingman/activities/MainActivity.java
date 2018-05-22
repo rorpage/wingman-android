@@ -94,7 +94,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(mWingmanServiceIntent);
+
+        if (mWingmanServiceIntent != null) {
+            stopService(mWingmanServiceIntent);
+        }
     }
 
     private void setupBottomNavigation() {
