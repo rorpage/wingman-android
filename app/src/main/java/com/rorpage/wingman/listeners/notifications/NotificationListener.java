@@ -31,6 +31,7 @@ public class NotificationListener extends NotificationListenerService {
 
     private void setupIgnoredPackages() {
         mIgnoredPackages = new ArrayList<>();
+        // SMS
         mIgnoredPackages.add("com.p1.chompsms");
         mIgnoredPackages.add("com.klinker.android.evolve_sms");
         mIgnoredPackages.add("com.jb.gosms");
@@ -40,6 +41,11 @@ public class NotificationListener extends NotificationListenerService {
         mIgnoredPackages.add("org.thoughtcrime.securesms");
         mIgnoredPackages.add("com.sonyericsson.conversations");
         mIgnoredPackages.add("com.disa");
+        // Pebble
+        mIgnoredPackages.add("com.getpebble.android.basalt");
+        // Weather
+        mIgnoredPackages.add("com.samruston.weather");
+        // Wingman
         mIgnoredPackages.add("com.rorpage.wingman");
     }
 
