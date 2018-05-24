@@ -60,55 +60,37 @@ public class NhlUpdateService extends BaseUpdateService {
                 if (e != null) {
                     Timber.e(e);
                 } else {
-                    final Schedule schedule = mGson.fromJson(result, Schedule.class);
-                    final ArrayList<Game> games = schedule.Dates.get(0).Games;
-
                     String gameOutput = "No games today";
-                    if (games.size() > 0) {
-                        final Game gameToWatch = games.get(0);
 
-                        String awayTeamAbbreviation = "";
-                        String homeTeamAbbreviation = "";
-                        for (TeamsTeam team : teams.Teams) {
-                            if (team.Id == gameToWatch.ScheduleTeam.AwayTeam.Team.Id) {
-                                awayTeamAbbreviation = team.Abbreviation;
+                    final Schedule schedule = mGson.fromJson(result, Schedule.class);
+
+                    if (schedule.Dates.size() > 0) {
+                        final ArrayList<Game> games = schedule.Dates.get(0).Games;
+
+                        if (games.size() > 0) {
+                            final Game gameToWatch = games.get(0);
+
+                            String awayTeamAbbreviation = "";
+                            String homeTeamAbbreviation = "";
+                            for (TeamsTeam team : teams.Teams) {
+                                if (team.Id == gameToWatch.ScheduleTeam.AwayTeam.Team.Id) {
+                                    awayTeamAbbreviation = team.Abbreviation;
+                                }
+
+                                if (team.Id == gameToWatch.ScheduleTeam.HomeTeam.Team.Id) {
+                                    homeTeamAbbreviation = team.Abbreviation;
+                                }
                             }
 
-                            if (team.Id == gameToWatch.ScheduleTeam.HomeTeam.Team.Id) {
-                                homeTeamAbbreviation = team.Abbreviation;
+                            if (gameToWatch.ScheduleGameStatus
+                                    .DetailedState
+                                    .toLowerCase().equals("scheduled")) {
+                                gameOutput = getScheduledGameText(gameToWatch, awayTeamAbbreviation,
+                                        homeTeamAbbreviation);
+                            } else {
+                                gameOutput = getGameText(gameToWatch, awayTeamAbbreviation,
+                                        homeTeamAbbreviation);
                             }
-                        }
-
-                        if (gameToWatch.ScheduleGameStatus
-                                .DetailedState
-                                .toLowerCase().equals("scheduled")) {
-                            try {
-                                SimpleDateFormat gameDateParseFormat =
-                                        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-                                gameDateParseFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                                final Date gameDate = gameDateParseFormat.parse(gameToWatch.GameDate);
-                                SimpleDateFormat gameDateOutputFormat =
-                                        new SimpleDateFormat("h:mm aa", Locale.US);
-                                gameDateOutputFormat.setTimeZone(TimeZone.getDefault());
-
-                                gameOutput = String.format(
-                                        Locale.US,
-                                        "%s @ %s\nTime: %s",
-                                        awayTeamAbbreviation,
-                                        homeTeamAbbreviation,
-                                        gameDateOutputFormat.format(gameDate));
-                            } catch (ParseException parseException) {
-                                Timber.e(parseException);
-                            }
-                        } else {
-                            gameOutput = String.format(
-                                    Locale.US,
-                                    "%s\n%s %s | %s %s",
-                                    gameToWatch.ScheduleGameStatus.DetailedState,
-                                    awayTeamAbbreviation,
-                                    gameToWatch.ScheduleTeam.AwayTeam.Score,
-                                    homeTeamAbbreviation,
-                                    gameToWatch.ScheduleTeam.HomeTeam.Score);
                         }
                     }
 
@@ -120,5 +102,42 @@ public class NhlUpdateService extends BaseUpdateService {
                 }
             }
         };
+    }
+
+    private String getScheduledGameText(final Game gameToWatch,
+                                        final String awayTeamAbbreviation,
+                                        final String homeTeamAbbreviation) {
+        try {
+            SimpleDateFormat gameDateParseFormat =
+                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            gameDateParseFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            final Date gameDate = gameDateParseFormat.parse(gameToWatch.GameDate);
+            SimpleDateFormat gameDateOutputFormat =
+                    new SimpleDateFormat("h:mm aa", Locale.US);
+            gameDateOutputFormat.setTimeZone(TimeZone.getDefault());
+
+            return String.format(
+                    Locale.US,
+                    "%s @ %s\nTime: %s",
+                    awayTeamAbbreviation,
+                    homeTeamAbbreviation,
+                    gameDateOutputFormat.format(gameDate));
+        } catch (ParseException parseException) {
+            Timber.e(parseException);
+            return null;
+        }
+    }
+
+    private String getGameText(final Game gameToWatch,
+                               final String awayTeamAbbreviation,
+                               final String homeTeamAbbreviation) {
+        return String.format(
+                Locale.US,
+                "%s\n%s %s | %s %s",
+                gameToWatch.ScheduleGameStatus.DetailedState,
+                awayTeamAbbreviation,
+                gameToWatch.ScheduleTeam.AwayTeam.Score,
+                homeTeamAbbreviation,
+                gameToWatch.ScheduleTeam.HomeTeam.Score);
     }
 }
