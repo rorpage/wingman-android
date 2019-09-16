@@ -62,7 +62,9 @@ public class NotificationManager {
                     mContext.getString(R.string.notification_channel_default),
                     android.app.NotificationManager.IMPORTANCE_LOW);
 
+            channel.setShowBadge(false);
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
             mNotificationManager.createNotificationChannel(channel);
         }
     }
